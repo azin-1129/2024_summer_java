@@ -1,56 +1,58 @@
 package Easy;
 
-import java.util.*;
+import java.lang.Math;
+import java.lang.Integer;
+import java.lang.StringBuilder;
+import java.util.Queue;
+import java.util.LinkedList;
 
-public class k진수에서소수개수구하기 {
-    public static void main(String[] args) {
-        String convertedNumber=Integer.toString(437674,3)+"0";
-        int answer = 0;
-        Queue<String> decimalStack=new LinkedList<>();
-
+class Solution {
+    int answer = 0;
+    Queue<String> decimalQueue=new LinkedList<>();
+    
+    public int solution(int n, int k) {
+        String convertedNumber=Integer.toString(n,k)+"0";
+        
         for(int i=0;i<convertedNumber.length();i++){
             if(Integer.valueOf(String.valueOf(convertedNumber.charAt(i)))!=0){
-                decimalStack.offer(String.valueOf(convertedNumber.charAt(i)));
+                decimalQueue.offer(String.valueOf(convertedNumber.charAt(i)));
             }else{
-                if(decimalStack.isEmpty()){
+                if(decimalQueue.isEmpty()){
                     continue;
                 }else{
-                    if(decimalStack.size()==1 & Integer.valueOf(decimalStack.peek())==1){
-                        decimalStack.poll();
+                    if(decimalQueue.size()==1 & Integer.valueOf(decimalQueue.peek())==1){
+                        decimalQueue.poll();
                         continue;
                     }
                     
-                    System.out.println("소수 여부를 판별할 숫자 원본입니다:"+decimalStack);
-                    int stackSize=decimalStack.size();
+                    int stackSize=decimalQueue.size();
                     StringBuilder decimalCalc=new StringBuilder();
                     
                     for(int j=0;j<stackSize;j++){
                         // decimalCalc+=Integer.valueOf(decimalStack.pop())*((int)(Math.pow(k,j)));
-                        decimalCalc.append(decimalStack.poll());
+                        decimalCalc.append(decimalQueue.poll());
                     }
                     
-                    System.out.println("소수 여부를 판별할 숫자입니다:"+decimalCalc);
-                    answer+=isPrime(Integer.valueOf(decimalCalc.toString()));
+                    isPrime(Long.valueOf(decimalCalc.toString()));
                 }
             }
         }
         
-        System.out.println(answer);
+        return answer;
     }
-
-    public static int isPrime(int number){
+    
+    public void isPrime(Long number){
         if(number==1){
-            return 0;
+            return;
         }
         
-        for(int i=number+1;i<=Math.sqrt(number);i++){
+        for(Long i=2L;i<=Math.sqrt(number);i++){
             if(number%i==0){
-                return 0;
+                return;
             }
         }
-
-        System.out.println(number+"는 소수입니다.");
-
-        return 1;
+        this.answer+=1;
+        
+        return;
     }
 }
